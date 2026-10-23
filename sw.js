@@ -1,4 +1,4 @@
-const CACHE = "psis-v1-shell";
+const CACHE = "psis-v1-dashboard2-shell";
 const FILES = ["./", "./index.html", "./manifest.webmanifest", "./icon.svg"];
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(FILES)));

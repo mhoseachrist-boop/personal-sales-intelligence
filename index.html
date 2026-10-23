@@ -4,9 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#123a70">
-<meta name="description" content="Personal offline sales lead tracker and follow-up assistant">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" href="icon.svg" type="image/svg+xml">
 <title>Personal Sales Intelligence System</title>
 <style>
 :root{--navy:#123a70;--blue:#1d5ca8;--gold:#d6a93b;--bg:#f3f6fa;--ink:#172438;--muted:#617087;--line:#dbe3ed;--white:#fff;--green:#18794e;--red:#b42318}
@@ -23,7 +20,7 @@ button,.btn{cursor:pointer;font:inherit}.primary{background:var(--blue);color:#f
 label{display:block;font-weight:700;font-size:12px;color:#40536c;margin:11px 0 5px}input,select,textarea{display:block;width:100%;border:1px solid #cbd6e3;border-radius:9px;padding:11px 10px;font:inherit;background:white;color:var(--ink)}textarea{min-height:72px;resize:vertical}
 .formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 12px}.full{grid-column:1/-1}.hint{color:var(--muted);font-size:12px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.list{display:grid;gap:9px}.lead{background:white;border:1px solid var(--line);border-radius:12px;padding:13px}.leadtop{display:flex;justify-content:space-between;gap:8px}.lead strong{font-size:15px}.meta{color:var(--muted);font-size:12px;margin-top:4px}.pill{display:inline-block;border-radius:99px;padding:4px 8px;font-size:11px;font-weight:800;background:#eaf1fb;color:#254d83}.pill.good{background:#e5f6ed;color:#14643f}.pill.warn{background:#fff3d8;color:#805500}.pill.bad{background:#ffebe9;color:#a1271d}.lead .actions{margin-top:10px}
 .empty{padding:24px 12px;text-align:center;color:var(--muted);border:1px dashed #c5d2e1;border-radius:12px;background:#fff}
-.notice{background:#fff7e5;border:1px solid #edd79a;padding:12px;border-radius:11px;font-size:12px;color:#5b4817;margin-bottom:12px}
+.progressbar{height:10px;background:#e8eef6;border-radius:99px;overflow:hidden;margin:8px 0}.progressbar span{display:block;height:100%;background:linear-gradient(90deg,#1d5ca8,#d6a93b);width:0;border-radius:99px}.priority-label{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:#805500}.notice{background:#fff7e5;border:1px solid #edd79a;padding:12px;border-radius:11px;font-size:12px;color:#5b4817;margin-bottom:12px}
 .searchrow{display:flex;gap:8px;margin-bottom:10px}.searchrow input{min-width:0}
 hr{border:0;border-top:1px solid var(--line);margin:14px 0}
 footer{max-width:980px;margin:auto;padding:0 14px 25px;color:var(--muted);font-size:11px}
@@ -39,13 +36,14 @@ footer{max-width:980px;margin:auto;padding:0 14px 25px;color:var(--muted);font-s
 <main>
 <section id="home" class="page active">
 <div class="notice"><strong>Prototype reminder:</strong> Use fictional test records first. This version stores information only in this browser on this device. It is not an official Platinum Credit system and does not determine loan eligibility.</div>
+<div class="panel" style="margin-bottom:10px"><div class="section-head" style="margin:0 0 5px"><h2>Monthly disbursement goal</h2><span class="pill">Target: 10</span></div><div style="display:flex;align-items:baseline;gap:7px;flex-wrap:wrap"><strong id="sMonthDisbursed" style="font-size:30px;color:var(--navy)">0</strong><span class="hint">disbursed this month</span><span id="sGoalPercent" class="pill warn">0% of target</span></div><div class="progressbar" role="progressbar" aria-label="Monthly disbursement target progress" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0"><span id="sGoalBar"></span></div><p class="hint" id="goalHint">Record a lead as Disbursed when the disbursement is confirmed. This month’s progress uses the date recorded in PSIS.</p></div>
 <div class="grid">
 <div class="stat"><small>Total leads</small><strong id="sTotal">0</strong></div>
 <div class="stat"><small>Qualified (initial)</small><strong id="sQualified">0</strong></div>
 <div class="stat"><small>Follow-ups due</small><strong id="sDue">0</strong></div>
 <div class="stat"><small>Applications submitted</small><strong id="sSubmitted">0</strong></div>
 </div>
-<div class="section-head"><h2>Today's priorities</h2><button class="primary" onclick="showTab('add')">Add a lead</button></div>
+<div class="section-head"><h2>Today's follow-ups</h2><button class="primary" onclick="showTab('add')">Add a lead</button></div><p class="hint">Overdue items appear first, followed by follow-ups due today. Contact each prospect and update the next action.</p><div id="dueSummary" class="grid" style="margin-bottom:10px"><div class="stat"><small>Overdue</small><strong id="sOverdue">0</strong></div><div class="stat"><small>Due today</small><strong id="sDueToday">0</strong></div></div>
 <div id="duePreview" class="list"></div>
 <div class="section-head"><h2>Pipeline snapshot</h2><button class="secondary" onclick="showTab('leads')">View all leads</button></div>
 <div id="pipeline" class="panel"></div>
@@ -116,8 +114,15 @@ $("sTotal").textContent=leads.length;
 $("sQualified").textContent=leads.filter(l=>l.stage==="Qualified (initial)").length;
 $("sDue").textContent=leads.filter(due).length;
 $("sSubmitted").textContent=leads.filter(l=>l.stage==="Submitted").length;
-const dueLeads=leads.filter(due).sort((a,b)=>(a.follow||"").localeCompare(b.follow||"")).slice(0,4);
-$("duePreview").innerHTML=dueLeads.length?dueLeads.map(card).join(""):'<div class="empty">No follow-ups due. Add a lead and set a follow-up date.</div>';
+const now=today(),month=now.slice(0,7),overdue=leads.filter(l=>due(l)&&l.follow<now),dueToday=leads.filter(l=>due(l)&&l.follow===now);
+$("sOverdue").textContent=overdue.length;$("sDueToday").textContent=dueToday.length;
+const monthDisbursed=leads.filter(l=>l.stage==="Disbursed"&&String(l.disbursedAt||"").slice(0,7)===month).length;
+const target=10,pct=Math.min(100,Math.round(monthDisbursed/target*100));
+$("sMonthDisbursed").textContent=monthDisbursed;$("sGoalPercent").textContent=pct+"% of target";$("sGoalBar").style.width=pct+"%";
+const bar=$("sGoalBar").parentElement;bar.setAttribute("aria-valuenow",Math.min(target,monthDisbursed));
+$("goalHint").textContent=monthDisbursed>=target?"Monthly goal reached. Keep following up on active leads.":(target-monthDisbursed)+" more disbursement"+(target-monthDisbursed===1?"":"s")+" to reach your monthly goal. Only disbursements recorded this month count here.";
+const dueLeads=[...overdue,...dueToday].sort((a,b)=>(a.follow||"").localeCompare(b.follow||"")).slice(0,6);
+$("duePreview").innerHTML=dueLeads.length?dueLeads.map(l=>`<article class="lead"><div class="priority-label">${l.follow<now?"Overdue follow-up":"Due today"}</div><div class="leadtop"><div><strong>${esc(l.name)}</strong><div class="meta">${esc(l.business||"Occupation not recorded")} · ${esc(l.source)}</div></div>${pill(l.stage)}</div><div class="meta">${l.phone?"Phone: "+esc(l.phone)+" · ":""}Follow-up: ${esc(l.follow)}</div><div class="meta">Next action: ${esc(l.notes||"No next-action note recorded")}</div><div class="actions"><button class="primary smallbtn" onclick="editLead('${l.id}')">Update lead</button></div></article>`).join(""):'<div class="empty">No overdue or due-today follow-ups. Check the Follow-ups tab for upcoming dates.</div>';
 $("pipeline").innerHTML=stages.filter(s=>leads.some(l=>l.stage===s)).map(s=>`<div style="display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid #edf1f6"><span>${esc(s)}</span><strong>${leads.filter(l=>l.stage===s).length}</strong></div>`).join("")||'<p class="hint">Your pipeline counts will appear here as you add leads.</p>';
 }
 function renderLeads(){let q=($("search")?.value||"").toLowerCase(),st=$("filterStage")?.value||"";let arr=leads.filter(l=>(!st||l.stage===st)&&[l.name,l.business,l.phone,l.source,l.notes].join(" ").toLowerCase().includes(q)).sort((a,b)=>(a.name||"").localeCompare(b.name||""));$("leadList").innerHTML=arr.length?arr.map(card).join(""):'<div class="empty">No matching leads yet. Add your first test lead.</div>'}
@@ -129,9 +134,9 @@ let sources=[...new Set(leads.map(l=>l.source))];$("sourceReport").innerHTML=sou
 }
 function newLead(){resetForm();showTab("add")}
 function resetForm(){ $("leadForm").reset();$("leadId").value="";$("stage").value="New";$("formTitle").textContent="Add a new lead"; }
-$("leadForm").addEventListener("submit",e=>{e.preventDefault();if(!$("consent").checked){alert("Please confirm appropriate permission or that this is fictional test data before saving.");return}let id=$("leadId").value||("lead_"+Date.now()+"_"+Math.random().toString(36).slice(2,7));let prev=leads.find(l=>l.id===id);let l={id,name:$("name").value.trim(),phone:$("phone").value.trim(),business:$("business").value.trim(),source:$("source").value,vehicle:$("vehicle").value,income:$("income").value,need:$("need").value,stage:$("stage").value,follow:$("follow").value,amount:$("amount").value,notes:$("notes").value.trim(),updatedAt:new Date().toISOString(),createdAt:prev?.createdAt||new Date().toISOString()};if(!l.name){alert("Enter a prospect name.");return}let i=leads.findIndex(x=>x.id===id);if(i>=0)leads[i]=l;else leads.unshift(l);if(persist()){resetForm();renderAll();showTab("leads");alert("Lead saved on this device.");}});
+$("leadForm").addEventListener("submit",e=>{e.preventDefault();if(!$("consent").checked){alert("Please confirm appropriate permission or that this is fictional test data before saving.");return}let id=$("leadId").value||("lead_"+Date.now()+"_"+Math.random().toString(36).slice(2,7));let prev=leads.find(l=>l.id===id);let l={id,name:$("name").value.trim(),phone:$("phone").value.trim(),business:$("business").value.trim(),source:$("source").value,vehicle:$("vehicle").value,income:$("income").value,need:$("need").value,stage:$("stage").value,follow:$("follow").value,amount:$("amount").value,notes:$("notes").value.trim(),updatedAt:new Date().toISOString(),createdAt:prev?.createdAt||new Date().toISOString(),disbursedAt:$("stage").value==="Disbursed"?(prev?.stage==="Disbursed"?(prev.disbursedAt||new Date().toISOString()):new Date().toISOString()):""};if(!l.name){alert("Enter a prospect name.");return}let i=leads.findIndex(x=>x.id===id);if(i>=0)leads[i]=l;else leads.unshift(l);if(persist()){resetForm();renderAll();showTab("leads");alert("Lead saved on this device.");}});
 function editLead(id){let l=leads.find(x=>x.id===id);if(!l)return;showTab("add");$("leadId").value=l.id;for(let f of ["name","phone","business","source","vehicle","income","need","stage","follow","amount","notes"])$(f).value=l[f]??"";$("consent").checked=true;$("formTitle").textContent="Edit lead"}
-function advanceLead(id){let l=leads.find(x=>x.id===id);if(!l)return;let i=stages.indexOf(l.stage);l.stage=stages[Math.min(i+1,stages.length-1)];l.updatedAt=new Date().toISOString();persist();renderAll()}
+function advanceLead(id){let l=leads.find(x=>x.id===id);if(!l)return;let i=stages.indexOf(l.stage);const previous=l.stage;l.stage=stages[Math.min(i+1,stages.length-1)];l.updatedAt=new Date().toISOString();if(l.stage==="Disbursed"&&previous!=="Disbursed")l.disbursedAt=new Date().toISOString();persist();renderAll()}
 function deleteLead(id){let l=leads.find(x=>x.id===id);if(l&&confirm("Delete lead '"+l.name+"' from this device?")){leads=leads.filter(x=>x.id!==id);persist();renderAll()}}
 function csvCell(v){return '"'+String(v??"").replace(/"/g,'""')+'"'}
 function exportCSV(){if(!leads.length){alert("There are no leads to export.");return}let cols=["name","phone","business","source","vehicle","income","need","stage","follow","amount","notes","createdAt","updatedAt"];let csv=[cols.join(","),...leads.map(l=>cols.map(k=>csvCell(l[k])).join(","))].join("\r\n");downloadBlob(new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8;"}),"psis-leads.csv")}
@@ -140,11 +145,6 @@ function downloadBlob(blob,name){let u=URL.createObjectURL(blob),a=document.crea
 function restoreBackup(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let obj=JSON.parse(r.result),items=Array.isArray(obj)?obj:obj.leads;if(!Array.isArray(items)||items.some(x=>!x.id||!x.name))throw Error("Invalid backup");if(!confirm("Replace current records with "+items.length+" records from this backup? Export a backup first if needed."))return;leads=items;persist();renderAll();alert("Backup restored on this device.")}catch(err){alert("Could not restore: file is not a valid PSIS backup.")}e.target.value=""};r.readAsText(f)}
 function clearAll(){if(!leads.length){alert("No records to delete.");return}if(confirm("Delete ALL "+leads.length+" local leads? Export a backup first if needed.")&&confirm("Final confirmation: this cannot be undone.")){leads=[];persist();renderAll()}}
 fillStageOptions();renderAll();
-</script>
-<script>
-if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-  window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(() => {}));
-}
 </script>
 </body>
 </html>
