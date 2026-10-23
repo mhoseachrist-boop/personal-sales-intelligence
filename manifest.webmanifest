@@ -1,0 +1,11 @@
+{
+  "name": "Personal Sales Intelligence System",
+  "short_name": "Sales System",
+  "description": "Personal offline sales lead tracker and follow-up assistant",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3f6fa",
+  "theme_color": "#123a70",
+  "icons": [{"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}
