@@ -2,149 +2,1008 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#123a70">
-<title>Personal Sales Intelligence System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#102744">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
+<title>PSIS</title>
 <style>
-:root{--navy:#123a70;--blue:#1d5ca8;--gold:#d6a93b;--bg:#f3f6fa;--ink:#172438;--muted:#617087;--line:#dbe3ed;--white:#fff;--green:#18794e;--red:#b42318}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-header{background:linear-gradient(130deg,#102d55,#1b5797);color:white;padding:22px 16px 18px;border-bottom:4px solid var(--gold)}
-.wrap{max-width:980px;margin:auto}header .eyebrow{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:#f3d88d;font-weight:800}h1{font-size:24px;line-height:1.15;margin:6px 0}header p{margin:7px 0 0;color:#e2ebf8;font-size:13px}
-nav{display:flex;gap:7px;overflow-x:auto;padding:10px 12px;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:3}
-nav button{border:0;background:#edf2f8;color:#28415f;border-radius:9px;padding:10px 13px;font-weight:700;white-space:nowrap}
-nav button.active{background:var(--navy);color:white}
-main{max-width:980px;margin:auto;padding:14px 12px 36px}.page{display:none}.page.active{display:block}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.stat,.panel{background:white;border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:0 2px 7px #17243808}.stat small{display:block;color:var(--muted);font-weight:700;font-size:12px}.stat strong{display:block;font-size:27px;margin-top:4px;color:var(--navy)}
-.section-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:17px 0 9px}h2{font-size:18px;margin:0}h3{font-size:15px;margin:0 0 10px}
-button,.btn{cursor:pointer;font:inherit}.primary{background:var(--blue);color:#fff;border:0;border-radius:9px;padding:11px 14px;font-weight:750}.secondary{background:#eef3f9;color:var(--navy);border:1px solid #cfdaea;border-radius:9px;padding:10px 12px;font-weight:700}.danger{background:#fff0ef;color:var(--red);border:1px solid #f0c5c1;border-radius:9px;padding:9px 11px;font-weight:700}.smallbtn{padding:7px 9px;font-size:12px}
-label{display:block;font-weight:700;font-size:12px;color:#40536c;margin:11px 0 5px}input,select,textarea{display:block;width:100%;border:1px solid #cbd6e3;border-radius:9px;padding:11px 10px;font:inherit;background:white;color:var(--ink)}textarea{min-height:72px;resize:vertical}
-.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 12px}.full{grid-column:1/-1}.hint{color:var(--muted);font-size:12px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.list{display:grid;gap:9px}.lead{background:white;border:1px solid var(--line);border-radius:12px;padding:13px}.leadtop{display:flex;justify-content:space-between;gap:8px}.lead strong{font-size:15px}.meta{color:var(--muted);font-size:12px;margin-top:4px}.pill{display:inline-block;border-radius:99px;padding:4px 8px;font-size:11px;font-weight:800;background:#eaf1fb;color:#254d83}.pill.good{background:#e5f6ed;color:#14643f}.pill.warn{background:#fff3d8;color:#805500}.pill.bad{background:#ffebe9;color:#a1271d}.lead .actions{margin-top:10px}
-.empty{padding:24px 12px;text-align:center;color:var(--muted);border:1px dashed #c5d2e1;border-radius:12px;background:#fff}
-.progressbar{height:10px;background:#e8eef6;border-radius:99px;overflow:hidden;margin:8px 0}.progressbar span{display:block;height:100%;background:linear-gradient(90deg,#1d5ca8,#d6a93b);width:0;border-radius:99px}.priority-label{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:#805500}.notice{background:#fff7e5;border:1px solid #edd79a;padding:12px;border-radius:11px;font-size:12px;color:#5b4817;margin-bottom:12px}
-.searchrow{display:flex;gap:8px;margin-bottom:10px}.searchrow input{min-width:0}
+:root{
+  --navy:#102744; --navy2:#173858; --blue:#244a70; --gold:#d7b875;
+  --bg:#f5f7fa; --ink:#172638; --muted:#6d7b8c; --line:#e2e7ed;
+  --white:#fff; --green:#176847; --red:#a63b35; --surface:#fffdf8;
+  --gold-soft:#f7f3e9; --gold-line:#d8c69b;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.wrap,main,footer{max-width:760px;margin:0 auto}
+header{background:var(--navy);color:#fff;padding:18px 17px 20px;border-bottom:3px solid var(--gold)}
+.brandrow{display:flex;align-items:center;gap:12px}
+.appmark{width:46px;height:46px;flex:0 0 46px;border-radius:14px;background:#fff;display:grid;place-items:center;box-shadow:0 4px 12px #07172b35}
+.appmark svg{width:38px;height:38px}
+.eyebrow{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:800}
+h1{font-size:21px;line-height:1.2;margin:3px 0 0;letter-spacing:-.025em}
+header p{font-size:12px;color:#d7e0ea;margin:5px 0 0}
+nav{display:flex;gap:5px;overflow-x:auto;padding:9px 12px;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:3;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav button{border:0;background:transparent;color:#607086;border-radius:9px;padding:10px 12px;font-size:13px;font-weight:750;white-space:nowrap}
+nav button.active{background:var(--navy);color:#fff}
+main{padding:17px 14px 36px}
+.page{display:none}.page.active{display:block}
+.hero{background:var(--navy);color:white;border-radius:17px;padding:17px;margin-bottom:15px;box-shadow:0 7px 18px #10274412}
+.hero .section-head{margin:0 0 11px}
+.hero h2{font-size:15px;color:#fff}
+.hero .hint{color:#d5dfeb}
+.goalnum{font-size:34px;line-height:1.15;font-weight:800;letter-spacing:-.04em;color:#fff}
+.goalnum span{font-size:14px;font-weight:600;color:#d6e0ea;letter-spacing:0}
+.pill{display:inline-block;border-radius:99px;padding:4px 8px;font-size:11px;font-weight:800;background:#edf2f7;color:#28415f}
+.hero .pill{background:#2a4260;color:#f1dca9}
+.progressbar{height:6px;background:#354b64;border-radius:99px;overflow:hidden;margin:12px 0 8px}
+.progressbar span{display:block;height:100%;background:var(--gold);width:0;border-radius:99px}
+.section-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:20px 0 10px}
+h2{font-size:17px;margin:0;letter-spacing:-.02em}
+h3{font-size:14px;margin:0 0 10px}
+.hint{color:var(--muted);font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.stat,.panel{background:linear-gradient(145deg,#fffdf8 0%,#f7f3e9 100%);border:1px solid var(--gold-line);border-left:3px solid var(--gold);border-radius:13px;padding:13px;box-shadow:0 3px 10px #1027440a}
+.stat small{display:block;color:var(--muted);font-weight:700;font-size:11px}
+.stat strong{display:block;font-size:25px;margin-top:3px;color:var(--navy)}
+button,.btn{cursor:pointer;font:inherit}
+.primary{background:var(--navy);color:#fff;border:1px solid var(--navy);border-radius:9px;padding:10px 13px;font-size:13px;font-weight:750}
+.primary:active{background:var(--blue)}
+.primary:disabled{opacity:.55;cursor:not-allowed}
+.secondary{background:var(--gold-soft);color:var(--navy);border:1px solid var(--gold-line);border-radius:9px;padding:9px 11px;font-size:13px;font-weight:700}
+.danger{background:#fff7f6;color:var(--red);border:1px solid #efd0cc;border-radius:9px;padding:9px 11px;font-size:13px;font-weight:700}
+.smallbtn{padding:7px 9px;font-size:12px}
+.list{display:grid;gap:9px}
+.lead{background:linear-gradient(145deg,#ffffff 0%,#f7f9fc 100%);border:1px solid #cbd5e1;border-top:2px solid var(--gold);border-radius:12px;padding:13px;box-shadow:0 3px 10px #1027440a}
+.leadtop{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.lead strong{font-size:14px}
+.meta{color:var(--muted);font-size:11px;margin-top:4px}
+.pill.good{background:#e8f5ee;color:#176847}
+.pill.warn{background:#fff5df;color:#7a5a13}
+.pill.bad{background:#fff0ee;color:#a63b35}
+.lead .actions{margin-top:10px}
+.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
+.empty{padding:22px 12px;text-align:center;color:var(--muted);border:1px dashed #c8b47e;border-radius:12px;background:#f9f6ed;font-size:13px}
+.priority-label{font-size:10px;font-weight:850;text-transform:uppercase;letter-spacing:.07em;color:#9a6d15;margin-bottom:5px}
+.searchrow{display:flex;gap:8px;margin-bottom:10px}
+.searchrow input{min-width:0}
+label{display:block;font-weight:750;font-size:12px;color:#40536c;margin:11px 0 5px}
+input,select,textarea{display:block;width:100%;border:1px solid #cbd5e0;border-radius:9px;padding:11px 10px;font:inherit;background:#fff;color:var(--ink)}
+textarea{min-height:72px;resize:vertical}
+.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 12px}
+.full{grid-column:1/-1}
 hr{border:0;border-top:1px solid var(--line);margin:14px 0}
-footer{max-width:980px;margin:auto;padding:0 14px 25px;color:var(--muted);font-size:11px}
-@media(min-width:700px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}.leadlist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.leadlist .lead{margin:0}}
-@media(max-width:480px){.formgrid{grid-template-columns:1fr}.full{grid-column:auto}.grid{gap:8px}.stat{padding:11px}.stat strong{font-size:24px}.section-head{align-items:flex-start}h1{font-size:22px}}
+footer{padding:0 15px 25px;color:var(--muted);font-size:10px}
+.checkline{display:flex;align-items:flex-start;gap:8px;margin-top:10px;font-size:13px;font-weight:600}
+.checkline input{width:auto;margin:2px 0 0;flex-shrink:0}
+.quick-actions{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 4px}
+.quick-actions button{flex:1 1 auto;min-width:110px}
+.earnings-panel{background:linear-gradient(135deg,#fffdf8,#f5f0e5);border:1px solid #d8c49a}
+.earnings-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:12px 0}
+.earnings-grid .stat{background:#fff;border:1px solid #e3d6ba;border-left:3px solid #c6a15b;border-radius:12px;padding:12px;min-width:0}
+.earnings-grid .stat strong{font-size:1.05rem;overflow-wrap:anywhere}
+.earnings-grid .earnings-total{background:#13233f;color:#fff;border-color:#13233f;grid-column:1/-1}
+.earnings-grid .earnings-total small{color:#e6d6b2}
+.earnings-grid .earnings-total strong{font-size:1.35rem;color:#f0d69a}
+.earnings-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;border-top:1px solid #e2d5b9;padding-top:14px}
+.earnings-controls>div{background:#fff;border:1px solid #e7dcc6;border-radius:12px;padding:12px;min-width:0}
+.earnings-controls input[type=number]{margin-top:7px}
+.activity-item{padding:10px 0;border-bottom:1px solid #edf1f6;font-size:13px}
+.activity-item:last-child{border-bottom:0}
+.activity-item .meta{margin-top:2px}
+.month-picker{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.month-picker select{width:auto;min-width:140px;padding:8px 10px}
+@media(min-width:600px){
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .leadlist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .leadlist .lead{margin:0}
+  main{padding:22px 18px 42px}
+}
+@media(max-width:480px){
+  .formgrid{grid-template-columns:1fr}
+  .full{grid-column:auto}
+  h1{font-size:20px}
+  .hero{padding:15px}
+  .section-head{align-items:center}
+  .searchrow{flex-direction:column}
+  .earnings-controls{grid-template-columns:1fr}
+  .earnings-grid .stat small{font-size:.76rem}
+  .quick-actions{flex-direction:column}
+}
 </style>
 </head>
 <body>
-<header><div class="wrap"><div class="eyebrow">Personal tool • Version 1</div><h1>Sales Intelligence System</h1><p>Lead tracker & follow-up assistant · Built for your personal workflow</p></div></header>
+<header>
+  <div class="wrap">
+    <div class="brandrow">
+      <div class="appmark" aria-label="PSI monogram app icon">
+        <svg viewBox="0 0 100 100" role="img" aria-label="PSI">
+          <rect x="4" y="4" width="92" height="92" rx="22" fill="#102744"/>
+          <path d="M18 25h18c12 0 18 6 18 16S48 57 36 57h-6v18H18V25zm12 10v12h6c4 0 6-2 6-6s-2-6-6-6h-6z" fill="#d7b875"/>
+          <path d="M57 33c0-6 6-9 13-9 6 0 11 2 15 5l-5 9c-3-2-7-4-10-4-2 0-3 1-3 2 0 5 20 3 20 17 0 8-7 13-17 13-7 0-14-3-18-7l6-9c4 3 8 5 12 5 2 0 4-1 4-2 0-5-17-3-17-16z" fill="#ffffff"/>
+          <path d="M60 70h25" stroke="#d7b875" stroke-width="5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div>
+        <div class="eyebrow">Sales Intelligence</div>
+        <h1>PSI <span style="color:#d7b875">Sales</span></h1>
+      </div>
+    </div>
+  </div>
+</header>
+
 <nav aria-label="Main navigation">
-<button class="active" data-tab="home">Dashboard</button><button data-tab="leads">My Leads</button><button data-tab="add">+ Add Lead</button><button data-tab="tasks">Follow-ups</button><button data-tab="reports">Reports & Data</button>
+  <button class="active" data-tab="home">Dashboard</button>
+  <button data-tab="leads">My Leads</button>
+  <button data-tab="add">+ Add Lead</button>
+  <button data-tab="tasks">Follow-ups</button>
+  <button data-tab="earnings">Earnings</button>
+  <button data-tab="reports">Data</button>
 </nav>
+
 <main>
-<section id="home" class="page active">
-<div class="notice"><strong>Prototype reminder:</strong> Use fictional test records first. This version stores information only in this browser on this device. It is not an official Platinum Credit system and does not determine loan eligibility.</div>
-<div class="panel" style="margin-bottom:10px"><div class="section-head" style="margin:0 0 5px"><h2>Monthly disbursement goal</h2><span class="pill">Target: 10</span></div><div style="display:flex;align-items:baseline;gap:7px;flex-wrap:wrap"><strong id="sMonthDisbursed" style="font-size:30px;color:var(--navy)">0</strong><span class="hint">disbursed this month</span><span id="sGoalPercent" class="pill warn">0% of target</span></div><div class="progressbar" role="progressbar" aria-label="Monthly disbursement target progress" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0"><span id="sGoalBar"></span></div><p class="hint" id="goalHint">Record a lead as Disbursed when the disbursement is confirmed. This month’s progress uses the date recorded in PSIS.</p></div>
-<div class="grid">
-<div class="stat"><small>Total leads</small><strong id="sTotal">0</strong></div>
-<div class="stat"><small>Qualified (initial)</small><strong id="sQualified">0</strong></div>
-<div class="stat"><small>Follow-ups due</small><strong id="sDue">0</strong></div>
-<div class="stat"><small>Applications submitted</small><strong id="sSubmitted">0</strong></div>
-</div>
-<div class="section-head"><h2>Today's follow-ups</h2><button class="primary" onclick="showTab('add')">Add a lead</button></div><p class="hint">Overdue items appear first, followed by follow-ups due today. Contact each prospect and update the next action.</p><div id="dueSummary" class="grid" style="margin-bottom:10px"><div class="stat"><small>Overdue</small><strong id="sOverdue">0</strong></div><div class="stat"><small>Due today</small><strong id="sDueToday">0</strong></div></div>
-<div id="duePreview" class="list"></div>
-<div class="section-head"><h2>Pipeline snapshot</h2><button class="secondary" onclick="showTab('leads')">View all leads</button></div>
-<div id="pipeline" class="panel"></div>
-</section>
-<section id="leads" class="page">
-<div class="section-head"><h2>My leads</h2><button class="primary" onclick="newLead()">+ Add lead</button></div>
-<div class="searchrow"><input id="search" placeholder="Search name, business, phone..." oninput="renderLeads()"><select id="filterStage" onchange="renderLeads()" aria-label="Filter by stage"><option value="">All stages</option></select></div>
-<div id="leadList" class="leadlist list"></div>
-</section>
-<section id="add" class="page">
-<div class="panel"><h2 id="formTitle">Add a new lead</h2><p class="hint">Collect only what you need, and only with appropriate permission.</p>
-<form id="leadForm">
-<input type="hidden" id="leadId">
-<div class="formgrid">
-<div><label for="name">Prospect name *</label><input id="name" required maxlength="100" placeholder="e.g. Test Prospect A"></div>
-<div><label for="phone">Phone (optional)</label><input id="phone" inputmode="tel" maxlength="30" placeholder="Use test data for practice"></div>
-<div><label for="business">Business / occupation</label><input id="business" maxlength="100" placeholder="e.g. Retail trader"></div>
-<div><label for="source">Lead source *</label><select id="source" required><option>Referral</option><option>Public business listing</option><option>Field visit</option><option>Existing contact / consented enquiry</option><option>Company campaign</option><option>Other</option></select></div>
-<div><label for="vehicle">Vehicle ownership check</label><select id="vehicle"><option value="Unknown">Not checked</option><option value="Yes">Says vehicle is in their name</option><option value="No">Vehicle not in their name</option><option value="Pending">Needs verification</option></select></div>
-<div><label for="income">Income / repayment discussion</label><select id="income"><option value="Unknown">Not discussed</option><option value="Discussed">Income source discussed</option><option value="Needs review">Needs further review</option></select></div>
-<div><label for="need">Financing need</label><select id="need"><option value="">Not discussed</option><option>Business capital</option><option>School fees</option><option>Medical expense</option><option>Other personal need</option><option>Other</option></select></div>
-<div><label for="stage">Pipeline stage *</label><select id="stage" required></select></div>
-<div><label for="follow">Next follow-up date</label><input id="follow" type="date"></div>
-<div><label for="amount">Amount sought (UGX, optional)</label><input id="amount" type="number" min="0" step="1000" placeholder="Do not record if unnecessary"></div>
-<div class="full"><label for="notes">Notes / next action</label><textarea id="notes" maxlength="800" placeholder="Keep notes factual and professional. Do not record passwords, PINs, or unnecessary sensitive details."></textarea></div>
-<div class="full"><label><input id="consent" type="checkbox" style="display:inline;width:auto;margin-right:6px"> I have an appropriate basis/permission to contact this person, or this is fictional test data.</label></div>
-</div>
-<div class="actions"><button class="primary" type="submit">Save lead</button><button class="secondary" type="button" onclick="resetForm()">Clear form</button></div>
-<p class="hint">“Qualified (initial)” is a working sales label only. Confirm all eligibility and product requirements with your employer.</p>
-</form></div>
-</section>
-<section id="tasks" class="page">
-<div class="section-head"><h2>Follow-ups</h2><button class="secondary" onclick="showTab('add')">Add lead</button></div>
-<p class="hint">Due today, overdue, or scheduled for the future. Update the date after you complete each contact.</p>
-<div id="taskList" class="list"></div>
-</section>
-<section id="reports" class="page">
-<div class="section-head"><h2>Reports & data</h2></div>
-<div class="grid">
-<div class="stat"><small>Interested</small><strong id="rInterested">0</strong></div>
-<div class="stat"><small>Documents pending</small><strong id="rDocs">0</strong></div>
-<div class="stat"><small>Approved</small><strong id="rApproved">0</strong></div>
-<div class="stat"><small>Disbursed</small><strong id="rDisbursed">0</strong></div>
-</div>
-<div class="panel" style="margin-top:12px"><h3>Lead-source performance</h3><div id="sourceReport"></div><hr><h3>Export or back up your records</h3><p class="hint">Export creates a CSV copy you can open in a spreadsheet. CSV exports contain the fields shown in your records, so store them securely.</p><div class="actions"><button class="primary" onclick="exportCSV()">Export CSV</button><button class="secondary" onclick="downloadBackup()">Download backup JSON</button><label class="secondary" style="display:inline-flex;align-items:center;gap:7px;cursor:pointer">Restore backup<input type="file" id="restoreFile" accept=".json,application/json" style="display:none" onchange="restoreBackup(event)"></label></div><hr><h3>Delete local records</h3><p class="hint">This permanently clears records saved by this prototype in this browser.</p><button class="danger" onclick="clearAll()">Delete all local records</button></div>
-</section>
+  <!-- DASHBOARD -->
+  <section id="home" class="page active">
+    <div class="hero">
+      <div class="section-head">
+        <h2>Monthly disbursement goal</h2>
+        <label class="target-editor" style="color:#d5dfeb;font-size:12px">
+          Target
+          <input id="monthlyTarget" type="number" min="1" max="10000" step="1" value="10" aria-label="Monthly disbursement target" style="width:70px;display:inline-block;margin-left:6px;padding:6px 8px;border-radius:8px;border:1px solid #3a5270;background:#1a3350;color:#fff">
+        </label>
+      </div>
+      <div class="goalnum"><span id="sMonthDisbursed">0</span> <span id="goalDenominator">/ 10 disbursed</span></div>
+      <div class="progressbar" role="progressbar" aria-label="Monthly disbursement target progress" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0">
+        <span id="sGoalBar"></span>
+      </div>
+      <div class="section-head" style="margin:0">
+        <span class="hint" id="goalHint">Set a target and record disbursements.</span>
+        <span id="sGoalPercent" class="pill">0%</span>
+      </div>
+    </div>
+
+    <div class="quick-actions">
+      <button class="primary" onclick="showTab('add')">+ Add Lead</button>
+      <button class="secondary" id="markAttendanceQuick" type="button">Mark Attendance</button>
+      <button class="secondary" onclick="showTab('earnings')">View Earnings</button>
+    </div>
+
+    <div class="section-head">
+      <h2>Today's follow-ups</h2>
+    </div>
+    <div id="dueSummary" class="grid" style="margin-bottom:10px">
+      <div class="stat"><small>Overdue</small><strong id="sOverdue">0</strong></div>
+      <div class="stat"><small>Due today</small><strong id="sDueToday">0</strong></div>
+    </div>
+    <div id="duePreview" class="list"></div>
+
+    <div class="panel" style="margin-top:14px">
+      <div class="section-head" style="margin-top:0">
+        <h2>Pipeline</h2>
+        <button class="secondary smallbtn" onclick="showTab('leads')">View all</button>
+      </div>
+      <div id="pipeline"></div>
+    </div>
+  </section>
+
+  <!-- LEADS -->
+  <section id="leads" class="page">
+    <div class="section-head">
+      <h2>My leads</h2>
+      <button class="primary" onclick="newLead()">+ Add lead</button>
+    </div>
+    <div class="searchrow">
+      <input id="search" placeholder="Search name, business, phone..." oninput="renderLeads()">
+      <select id="filterStage" onchange="renderLeads()" aria-label="Filter by stage"><option value="">All stages</option></select>
+    </div>
+    <div id="leadList" class="leadlist list"></div>
+  </section>
+
+  <!-- ADD / EDIT LEAD -->
+  <section id="add" class="page">
+    <div class="panel">
+      <h2 id="formTitle">Add a new lead</h2>
+      <form id="leadForm">
+        <input type="hidden" id="leadId">
+        <div class="formgrid">
+          <div>
+            <label for="name">Prospect name *</label>
+            <input id="name" required maxlength="100" placeholder="e.g. Test Prospect A">
+          </div>
+          <div>
+            <label for="phone">Phone</label>
+            <input id="phone" inputmode="tel" maxlength="30" placeholder="Optional">
+          </div>
+          <div>
+            <label for="business">Business / occupation</label>
+            <input id="business" maxlength="100" placeholder="e.g. Retail trader">
+          </div>
+          <div>
+            <label for="source">Lead source *</label>
+            <select id="source" required>
+              <option>Referral</option>
+              <option>Public business listing</option>
+              <option>Field visit</option>
+              <option>Existing contact / consented enquiry</option>
+              <option>Company campaign</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div>
+            <label for="vehicle">Vehicle ownership check</label>
+            <select id="vehicle">
+              <option value="Unknown">Not checked</option>
+              <option value="Yes">Says vehicle is in their name</option>
+              <option value="No">Vehicle not in their name</option>
+              <option value="Pending">Needs verification</option>
+            </select>
+          </div>
+          <div>
+            <label for="income">Income / repayment discussion</label>
+            <select id="income">
+              <option value="Unknown">Not discussed</option>
+              <option value="Discussed">Income source discussed</option>
+              <option value="Needs review">Needs further review</option>
+            </select>
+          </div>
+          <div>
+            <label for="need">Financing need</label>
+            <select id="need">
+              <option value="">Not discussed</option>
+              <option>Business capital</option>
+              <option>School fees</option>
+              <option>Medical expense</option>
+              <option>Other personal need</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div>
+            <label for="stage">Pipeline stage *</label>
+            <select id="stage" required></select>
+          </div>
+          <div>
+            <label for="follow">Next follow-up date</label>
+            <input id="follow" type="date">
+          </div>
+          <div>
+            <label for="amount">Amount sought (UGX)</label>
+            <input id="amount" type="number" min="0" step="1" placeholder="Optional">
+          </div>
+          <div>
+            <label for="disbursedAmount">Actual amount disbursed (UGX)</label>
+            <input id="disbursedAmount" type="number" min="0" step="1" placeholder="Only when disbursed">
+          </div>
+          <div>
+            <label for="disbursedAt">Actual disbursement date</label>
+            <input id="disbursedAt" type="date">
+          </div>
+          <div class="full">
+            <label for="notes">Notes / next action</label>
+            <textarea id="notes" maxlength="800" placeholder="Next action or notes"></textarea>
+          </div>
+          <div class="full">
+            <label class="checkline">
+              <input id="airtimeQualified" type="checkbox">
+              <span>Qualifies for airtime fund (UGX 10,000)</span>
+            </label>
+            <div id="airtimeDateWrap" style="display:none;margin-top:8px">
+              <label for="airtimeQualifiedAt">Qualification date</label>
+              <input id="airtimeQualifiedAt" type="date">
+            </div>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="primary" type="submit">Save lead</button>
+          <button class="secondary" type="button" onclick="resetForm()">Clear form</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOLLOW-UPS -->
+  <section id="tasks" class="page">
+    <div class="section-head">
+      <h2>Follow-ups</h2>
+      <button class="secondary" onclick="showTab('add')">Add lead</button>
+    </div>
+    <div id="taskList" class="list"></div>
+  </section>
+
+  <!-- EARNINGS -->
+  <section id="earnings" class="page">
+    <div class="section-head">
+      <h2>Earnings</h2>
+      <div class="month-picker">
+        <select id="earnMonth" aria-label="Select month"></select>
+      </div>
+    </div>
+
+    <div class="panel earnings-panel">
+      <div class="earnings-grid">
+        <div class="stat"><small>Loan commission (2%)</small><strong id="earnLoan">UGX 0</strong></div>
+        <div class="stat"><small>Travel fund (0.5%)</small><strong id="earnTravel">UGX 0</strong></div>
+        <div class="stat"><small>Airtime fund</small><strong id="earnAirtime">UGX 0</strong></div>
+        <div class="stat"><small>Attendance</small><strong id="earnAttendance">UGX 0</strong><small id="attendanceCount">0 workdays</small></div>
+        <div class="stat"><small>Portfolio commission</small><strong id="earnPortfolio">UGX 0</strong></div>
+        <div class="stat earnings-total"><small>Total</small><strong id="earnTotal">UGX 0</strong></div>
+      </div>
+
+      <div class="earnings-controls">
+        <div>
+          <strong>Attendance</strong>
+          <button class="primary" id="markAttendance" type="button" style="margin-top:8px;width:100%">Mark today</button>
+          <p class="hint" id="attendanceStatus" aria-live="polite" style="margin-top:8px"></p>
+        </div>
+        <div>
+          <label for="portfolioAmount"><strong>Portfolio (UGX)</strong></label>
+          <input id="portfolioAmount" type="number" min="0" step="1" value="300000">
+          <label class="checkline">
+            <input id="portfolioEarned" type="checkbox">
+            <span>Confirmed this month</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REPORTS / DATA -->
+  <section id="reports" class="page">
+    <div class="section-head"><h2>Data</h2></div>
+    <div class="grid">
+      <div class="stat"><small>Interested</small><strong id="rInterested">0</strong></div>
+      <div class="stat"><small>Documents pending</small><strong id="rDocs">0</strong></div>
+      <div class="stat"><small>Approved</small><strong id="rApproved">0</strong></div>
+      <div class="stat"><small>Disbursed</small><strong id="rDisbursed">0</strong></div>
+    </div>
+
+    <div class="panel" style="margin-top:12px">
+      <h3>Lead sources</h3>
+      <div id="sourceReport"></div>
+      <hr>
+      <h3>Backup</h3>
+      <div class="actions">
+        <button class="primary" onclick="exportCSV()">Export CSV</button>
+        <button class="secondary" onclick="downloadBackup()">Download JSON</button>
+        <label class="secondary" style="display:inline-flex;align-items:center;gap:7px;cursor:pointer">
+          Restore
+          <input type="file" id="restoreFile" accept=".json,application/json" style="display:none" onchange="restoreBackup(event)">
+        </label>
+      </div>
+      <hr>
+      <button class="danger" onclick="clearAll()">Delete all records</button>
+    </div>
+
+    <div class="panel" style="margin-top:14px">
+      <h3>Activity</h3>
+      <div id="activityFull" class="list"></div>
+    </div>
+  </section>
 </main>
-<footer>Personal prototype, not an official company tool. No network service, account login, encryption, or cloud backup is included. Keep the device locked and do not store real customer data until your employer approves the approach.</footer>
+
+<footer></footer>
+
 <script>
-const stages=["New","Contacted","Interested","Qualified (initial)","Documents Pending","Submitted","Approved","Disbursed","Follow-up Later","Not Eligible","Not Interested"];
-const key="psis_v1_leads_local";
-let leads=[];
-try{leads=JSON.parse(localStorage.getItem(key)||"[]");if(!Array.isArray(leads))leads=[]}catch(e){leads=[]}
-const $=id=>document.getElementById(id);
-function persist(){try{localStorage.setItem(key,JSON.stringify(leads));return true}catch(e){alert("Could not save. Browser storage may be full or disabled. Export a backup and free storage.");return false}}
-function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
-function today(){let d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
-function stageClass(s){return ["Qualified (initial)","Approved","Disbursed"].includes(s)?"good":["Documents Pending","Submitted","Interested","Follow-up Later"].includes(s)?"warn":["Not Eligible","Not Interested"].includes(s)?"bad":""}
-function pill(s){return `<span class="pill ${stageClass(s)}">${esc(s)}</span>`}
-function fillStageOptions(){ $("stage").innerHTML=stages.map(s=>`<option>${esc(s)}</option>`).join("");$("filterStage").innerHTML='<option value="">All stages</option>'+stages.map(s=>`<option>${esc(s)}</option>`).join("")}
-function showTab(id){document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id===id));document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===id));if(id==="add"&&!$("leadId").value) $("formTitle").textContent="Add a new lead";renderAll();window.scrollTo({top:0,behavior:"smooth"})}
-document.querySelectorAll("nav button").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.tab)));
-function due(le){return le.follow && le.follow<=today() && !["Disbursed","Not Eligible","Not Interested"].includes(le.stage)}
-function card(le){return `<article class="lead"><div class="leadtop"><div><strong>${esc(le.name)}</strong><div class="meta">${esc(le.business||"Occupation not recorded")} · ${esc(le.source)}</div></div>${pill(le.stage)}</div><div class="meta">${le.phone?"Phone: "+esc(le.phone)+" · ":""}${le.follow?"Follow-up: "+esc(le.follow):"No follow-up date"}${due(le)?" · DUE":""}</div><div class="meta">Vehicle: ${esc(le.vehicle||"Unknown")} · Income: ${esc(le.income||"Unknown")}</div><div class="actions"><button class="secondary smallbtn" onclick="editLead('${le.id}')">Edit</button><button class="secondary smallbtn" onclick="advanceLead('${le.id}')">Next stage</button><button class="danger smallbtn" onclick="deleteLead('${le.id}')">Delete</button></div></article>`}
-function renderAll(){renderDashboard();renderLeads();renderTasks();renderReports()}
+/* ========== CONSTANTS & STORAGE KEYS ========== */
+const STAGES = ["New","Contacted","Interested","Qualified (initial)","Documents Pending","Submitted","Approved","Disbursed","Follow-up Later","Not Eligible","Not Interested"];
+const SCHEMA_VERSION = 5;
+const KEY_LEADS = "psis_v1_leads_local";          // keep same key for compatibility
+const KEY_TARGET = "psis_v1_monthly_target";
+const KEY_ATTENDANCE = "psis_attendance_days_v1";
+const KEY_PORTFOLIO_AMT = "psis_portfolio_amount_v1";
+const KEY_PORTFOLIO_EARNED = "psis_portfolio_earned_month_v1";
+const KEY_ACTIVITY = "psis_activity_v5";
+const KEY_SETTINGS = "psis_settings_v5";
+
+/* ========== STATE ========== */
+let leads = [];
+let monthlyTarget = 10;
+let attendanceDays = [];
+let activityLog = [];
+let portfolioAmount = 300000;
+let portfolioEarnedMonth = "";   // "YYYY-MM" when confirmed
+let selectedEarnMonth = "";      // "YYYY-MM"
+
+/* ========== HELPERS ========== */
+const $ = id => document.getElementById(id);
+function esc(s){ return String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+function today(){
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+}
+function monthOf(d){
+  const str = String(d || "");
+  // Plain dates (YYYY-MM-DD) and months (YYYY-MM) are already local; full timestamps are converted to the local month.
+  if (str.length > 10) {
+    const t = new Date(str);
+    if (!isNaN(t)) return `${t.getFullYear()}-${String(t.getMonth()+1).padStart(2,"0")}`;
+  }
+  return str.slice(0,7);
+}
+function safeId(v){ return /^[A-Za-z0-9_-]+$/.test(String(v || "")); }
+const FLOW = STAGES.slice(0, STAGES.indexOf("Disbursed") + 1);
+function moneyUGX(n){ return "UGX " + Math.round(Number(n) || 0).toLocaleString("en-UG"); }
+function stageClass(s){
+  if (["Qualified (initial)","Approved","Disbursed"].includes(s)) return "good";
+  if (["Documents Pending","Submitted","Interested","Follow-up Later"].includes(s)) return "warn";
+  if (["Not Eligible","Not Interested"].includes(s)) return "bad";
+  return "";
+}
+function pill(s){ return `<span class="pill ${stageClass(s)}">${esc(s)}</span>`; }
+function due(le){
+  return le.follow && le.follow <= today() && !["Disbursed","Not Eligible","Not Interested"].includes(le.stage);
+}
+function actualDisbursedAmount(le){
+  // Prefer explicit disbursedAmount; fall back to amount for older records
+  const v = Number(le.disbursedAmount);
+  if (Number.isFinite(v) && v > 0) return v;
+  const old = Number(le.amount);
+  return (Number.isFinite(old) && old > 0) ? old : 0;
+}
+function isDisbursedInMonth(le, ym){
+  if (le.stage !== "Disbursed") return false;
+  const d = le.disbursedAt || "";
+  return monthOf(d) === ym;
+}
+
+/* ========== LOAD / SAVE ========== */
+function loadAll(){
+  try {
+    const raw = JSON.parse(localStorage.getItem(KEY_LEADS) || "[]");
+    leads = Array.isArray(raw) ? raw.filter(x => x && typeof x === "object" && safeId(x.id)) : [];
+  } catch(e){ leads = []; }
+
+  try {
+    monthlyTarget = Math.max(1, Math.min(10000, parseInt(localStorage.getItem(KEY_TARGET) || "10", 10) || 10));
+  } catch(e){ monthlyTarget = 10; }
+
+  try {
+    attendanceDays = JSON.parse(localStorage.getItem(KEY_ATTENDANCE) || "[]");
+    if (!Array.isArray(attendanceDays)) attendanceDays = [];
+  } catch(e){ attendanceDays = []; }
+
+  try {
+    portfolioAmount = Math.max(0, Number(localStorage.getItem(KEY_PORTFOLIO_AMT) ?? 300000) || 0);
+  } catch(e){ portfolioAmount = 300000; }
+
+  try {
+    portfolioEarnedMonth = localStorage.getItem(KEY_PORTFOLIO_EARNED) || "";
+  } catch(e){ portfolioEarnedMonth = ""; }
+
+  try {
+    activityLog = JSON.parse(localStorage.getItem(KEY_ACTIVITY) || "[]");
+    if (!Array.isArray(activityLog)) activityLog = [];
+  } catch(e){ activityLog = []; }
+
+  selectedEarnMonth = monthOf(today());
+}
+
+function persistLeads(){
+  try {
+    localStorage.setItem(KEY_LEADS, JSON.stringify(leads));
+    return true;
+  } catch(e){
+    alert("Could not save leads. Browser storage may be full or disabled. Export a backup and free space.");
+    return false;
+  }
+}
+function persistAttendance(){
+  try { localStorage.setItem(KEY_ATTENDANCE, JSON.stringify(attendanceDays)); } catch(e){}
+}
+function persistPortfolio(){
+  try {
+    localStorage.setItem(KEY_PORTFOLIO_AMT, String(portfolioAmount));
+    if (portfolioEarnedMonth) localStorage.setItem(KEY_PORTFOLIO_EARNED, portfolioEarnedMonth);
+    else localStorage.removeItem(KEY_PORTFOLIO_EARNED);
+  } catch(e){}
+}
+function persistActivity(){
+  try {
+    // keep last 200 entries
+    if (activityLog.length > 200) activityLog = activityLog.slice(0, 200);
+    localStorage.setItem(KEY_ACTIVITY, JSON.stringify(activityLog));
+  } catch(e){}
+}
+function persistTarget(){
+  try { localStorage.setItem(KEY_TARGET, String(monthlyTarget)); } catch(e){}
+}
+
+function logActivity(label, detail){
+  activityLog.unshift({
+    id: "act_" + Date.now() + "_" + Math.random().toString(36).slice(2,6),
+    at: new Date().toISOString(),
+    label: String(label || "Action"),
+    detail: String(detail || "")
+  });
+  persistActivity();
+}
+
+/* ========== NAV ========== */
+function showTab(id){
+  document.querySelectorAll(".page").forEach(p => p.classList.toggle("active", p.id === id));
+  document.querySelectorAll("nav button").forEach(b => b.classList.toggle("active", b.dataset.tab === id));
+  if (id === "add" && !$("leadId").value) $("formTitle").textContent = "Add a new lead";
+  renderAll();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+document.querySelectorAll("nav button").forEach(b => b.addEventListener("click", () => showTab(b.dataset.tab)));
+
+/* ========== RENDER HELPERS ========== */
+function fillStageOptions(){
+  $("stage").innerHTML = STAGES.map(s => `<option>${esc(s)}</option>`).join("");
+  $("filterStage").innerHTML = '<option value="">All stages</option>' + STAGES.map(s => `<option>${esc(s)}</option>`).join("");
+}
+
+function fillMonthPicker(){
+  const sel = $("earnMonth");
+  const months = new Set();
+  months.add(monthOf(today()));
+  leads.forEach(l => {
+    if (l.disbursedAt) months.add(monthOf(l.disbursedAt));
+    if (l.createdAt) months.add(monthOf(l.createdAt));
+    if (l.airtimeQualifiedAt) months.add(monthOf(l.airtimeQualifiedAt));
+  });
+  attendanceDays.forEach(d => months.add(monthOf(d)));
+  if (portfolioEarnedMonth) months.add(portfolioEarnedMonth);
+
+  const sorted = [...months].filter(Boolean).sort().reverse();
+  sel.innerHTML = sorted.map(m => {
+    const [y, mo] = m.split("-");
+    const label = new Date(Number(y), Number(mo)-1, 1).toLocaleString("en", { month: "long", year: "numeric" });
+    return `<option value="${esc(m)}">${esc(label)}</option>`;
+  }).join("");
+  if (!sorted.includes(selectedEarnMonth)) selectedEarnMonth = sorted[0] || monthOf(today());
+  sel.value = selectedEarnMonth;
+}
+
+function card(le){
+  const extra = [];
+  if (le.stage === "Disbursed") {
+    const amt = actualDisbursedAmount(le);
+    if (amt) extra.push("Disbursed: " + moneyUGX(amt));
+    if (le.disbursedAt) extra.push("on " + esc(le.disbursedAt));
+  }
+  if (le.airtimeQualified) extra.push("Airtime qualified");
+  return `<article class="lead">
+    <div class="leadtop">
+      <div>
+        <strong>${esc(le.name)}</strong>
+        <div class="meta">${esc(le.business || "Occupation not recorded")} · ${esc(le.source)}</div>
+      </div>
+      ${pill(le.stage)}
+    </div>
+    <div class="meta">${le.phone ? "Phone: " + esc(le.phone) + " · " : ""}${le.follow ? "Follow-up: " + esc(le.follow) : "No follow-up date"}${due(le) ? " · DUE" : ""}</div>
+    ${extra.length ? `<div class="meta">${extra.join(" · ")}</div>` : ""}
+    <div class="actions">
+      <button class="secondary smallbtn" onclick="editLead('${esc(le.id)}')">Edit</button>
+      ${FLOW.indexOf(le.stage) >= 0 && FLOW.indexOf(le.stage) < FLOW.length - 1 ? `<button class="secondary smallbtn" onclick="advanceLead('${esc(le.id)}')">Next stage</button>` : ""}
+      <button class="danger smallbtn" onclick="deleteLead('${esc(le.id)}')">Delete</button>
+    </div>
+  </article>`;
+}
+
+/* ========== RENDER SECTIONS ========== */
 function renderDashboard(){
-$("sTotal").textContent=leads.length;
-$("sQualified").textContent=leads.filter(l=>l.stage==="Qualified (initial)").length;
-$("sDue").textContent=leads.filter(due).length;
-$("sSubmitted").textContent=leads.filter(l=>l.stage==="Submitted").length;
-const now=today(),month=now.slice(0,7),overdue=leads.filter(l=>due(l)&&l.follow<now),dueToday=leads.filter(l=>due(l)&&l.follow===now);
-$("sOverdue").textContent=overdue.length;$("sDueToday").textContent=dueToday.length;
-const monthDisbursed=leads.filter(l=>l.stage==="Disbursed"&&String(l.disbursedAt||"").slice(0,7)===month).length;
-const target=10,pct=Math.min(100,Math.round(monthDisbursed/target*100));
-$("sMonthDisbursed").textContent=monthDisbursed;$("sGoalPercent").textContent=pct+"% of target";$("sGoalBar").style.width=pct+"%";
-const bar=$("sGoalBar").parentElement;bar.setAttribute("aria-valuenow",Math.min(target,monthDisbursed));
-$("goalHint").textContent=monthDisbursed>=target?"Monthly goal reached. Keep following up on active leads.":(target-monthDisbursed)+" more disbursement"+(target-monthDisbursed===1?"":"s")+" to reach your monthly goal. Only disbursements recorded this month count here.";
-const dueLeads=[...overdue,...dueToday].sort((a,b)=>(a.follow||"").localeCompare(b.follow||"")).slice(0,6);
-$("duePreview").innerHTML=dueLeads.length?dueLeads.map(l=>`<article class="lead"><div class="priority-label">${l.follow<now?"Overdue follow-up":"Due today"}</div><div class="leadtop"><div><strong>${esc(l.name)}</strong><div class="meta">${esc(l.business||"Occupation not recorded")} · ${esc(l.source)}</div></div>${pill(l.stage)}</div><div class="meta">${l.phone?"Phone: "+esc(l.phone)+" · ":""}Follow-up: ${esc(l.follow)}</div><div class="meta">Next action: ${esc(l.notes||"No next-action note recorded")}</div><div class="actions"><button class="primary smallbtn" onclick="editLead('${l.id}')">Update lead</button></div></article>`).join(""):'<div class="empty">No overdue or due-today follow-ups. Check the Follow-ups tab for upcoming dates.</div>';
-$("pipeline").innerHTML=stages.filter(s=>leads.some(l=>l.stage===s)).map(s=>`<div style="display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid #edf1f6"><span>${esc(s)}</span><strong>${leads.filter(l=>l.stage===s).length}</strong></div>`).join("")||'<p class="hint">Your pipeline counts will appear here as you add leads.</p>';
+  const now = today();
+  const month = monthOf(now);
+  const overdue = leads.filter(l => due(l) && l.follow < now);
+  const dueToday = leads.filter(l => due(l) && l.follow === now);
+
+  $("sOverdue").textContent = overdue.length;
+  $("sDueToday").textContent = dueToday.length;
+
+  const monthDisbursed = leads.filter(l => isDisbursedInMonth(l, month)).length;
+  const target = monthlyTarget;
+  const pct = Math.min(100, Math.round((monthDisbursed / target) * 100));
+  $("sMonthDisbursed").textContent = monthDisbursed;
+  $("goalDenominator").textContent = "/ " + target + " disbursed";
+  $("monthlyTarget").value = target;
+  $("sGoalPercent").textContent = pct + "%";
+  $("sGoalBar").style.width = pct + "%";
+  const bar = $("sGoalBar").parentElement;
+  bar.setAttribute("aria-valuenow", Math.min(target, monthDisbursed));
+  bar.setAttribute("aria-valuemax", target);
+  $("goalHint").textContent = monthDisbursed >= target
+    ? "Goal reached"
+    : (target - monthDisbursed) + " more to goal";
+
+  const dueLeads = [...overdue, ...dueToday].sort((a,b) => (a.follow||"").localeCompare(b.follow||"")).slice(0, 6);
+  $("duePreview").innerHTML = dueLeads.length
+    ? dueLeads.map(l => `<article class="lead">
+        <div class="priority-label">${l.follow < now ? "Overdue" : "Due today"}</div>
+        <div class="leadtop"><div><strong>${esc(l.name)}</strong><div class="meta">${esc(l.business||"")} · ${esc(l.source)}</div></div>${pill(l.stage)}</div>
+        <div class="meta">${l.phone ? esc(l.phone)+" · " : ""}${esc(l.follow)}</div>
+        <div class="actions"><button class="primary smallbtn" onclick="editLead('${esc(l.id)}')">Update</button></div>
+      </article>`).join("")
+    : '<div class="empty">No follow-ups due.</div>';
+
+  $("pipeline").innerHTML = STAGES.filter(s => leads.some(l => l.stage === s))
+    .map(s => `<div style="display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid #edf1f6"><span>${esc(s)}</span><strong>${leads.filter(l=>l.stage===s).length}</strong></div>`)
+    .join("") || '<p class="hint">No leads yet.</p>';
+
+  const attended = attendanceDays.includes(now);
+  $("markAttendanceQuick").disabled = attended;
+  $("markAttendanceQuick").textContent = attended ? "Attendance marked" : "Mark Attendance";
 }
-function renderLeads(){let q=($("search")?.value||"").toLowerCase(),st=$("filterStage")?.value||"";let arr=leads.filter(l=>(!st||l.stage===st)&&[l.name,l.business,l.phone,l.source,l.notes].join(" ").toLowerCase().includes(q)).sort((a,b)=>(a.name||"").localeCompare(b.name||""));$("leadList").innerHTML=arr.length?arr.map(card).join(""):'<div class="empty">No matching leads yet. Add your first test lead.</div>'}
-function renderTasks(){let arr=leads.filter(l=>l.follow&&!["Disbursed","Not Eligible","Not Interested"].includes(l.stage)).sort((a,b)=>a.follow.localeCompare(b.follow));$("taskList").innerHTML=arr.length?arr.map(l=>`<article class="lead"><div class="leadtop"><strong>${esc(l.name)}</strong>${pill(l.stage)}</div><div class="meta">${l.follow<today()?"Overdue":l.follow===today()?"Due today":"Upcoming"} · ${esc(l.follow)}</div><p class="hint">${esc(l.notes||"No next-action note added.")}</p><div class="actions"><button class="primary smallbtn" onclick="editLead('${l.id}')">Update follow-up</button></div></article>`).join(""):'<div class="empty">No scheduled follow-ups. Add dates to leads to build your task list.</div>'}
+
+function renderLeads(){
+  const q = ($("search")?.value || "").toLowerCase();
+  const st = $("filterStage")?.value || "";
+  const arr = leads.filter(l =>
+    (!st || l.stage === st) &&
+    [l.name, l.business, l.phone, l.source, l.notes].join(" ").toLowerCase().includes(q)
+  ).sort((a,b) => (a.name||"").localeCompare(b.name||""));
+  $("leadList").innerHTML = arr.length ? arr.map(card).join("") : '<div class="empty">No leads yet.</div>';
+}
+
+function renderTasks(){
+  const arr = leads.filter(l => l.follow && !["Disbursed","Not Eligible","Not Interested"].includes(l.stage))
+    .sort((a,b) => a.follow.localeCompare(b.follow));
+  $("taskList").innerHTML = arr.length
+    ? arr.map(l => `<article class="lead">
+        <div class="leadtop"><strong>${esc(l.name)}</strong>${pill(l.stage)}</div>
+        <div class="meta">${l.follow < today() ? "Overdue" : l.follow === today() ? "Due today" : "Upcoming"} · ${esc(l.follow)}</div>
+        <p class="hint">${esc(l.notes || "No next-action note.")}</p>
+        <div class="actions"><button class="primary smallbtn" onclick="editLead('${esc(l.id)}')">Update follow-up</button></div>
+      </article>`).join("")
+    : '<div class="empty">No follow-ups.</div>';
+}
+
+function renderEarnings(){
+  const ym = selectedEarnMonth || monthOf(today());
+  fillMonthPicker();
+
+  // Disbursements in selected month
+  const disbursed = leads.filter(l => isDisbursedInMonth(l, ym));
+  const disbursedSum = disbursed.reduce((s, l) => s + actualDisbursedAmount(l), 0);
+  const loanComm = disbursedSum * 0.02;
+  const travel = disbursedSum * 0.005;
+
+  // Airtime: only leads explicitly marked qualified, qualification date in month
+  const airtimeLeads = leads.filter(l => l.airtimeQualified && monthOf(l.airtimeQualifiedAt) === ym);
+  const airtime = airtimeLeads.length * 10000;
+
+  // Attendance days in month
+  const days = attendanceDays.filter(d => monthOf(d) === ym);
+  const attendance = days.length * 10000;
+
+  // Portfolio
+  const portfolio = (portfolioEarnedMonth === ym) ? portfolioAmount : 0;
+
+  $("earnLoan").textContent = moneyUGX(loanComm);
+  $("earnTravel").textContent = moneyUGX(travel);
+  $("earnAirtime").textContent = moneyUGX(airtime);
+  $("earnAttendance").textContent = moneyUGX(attendance);
+  $("attendanceCount").textContent = days.length + " workday" + (days.length === 1 ? "" : "s");
+  $("earnPortfolio").textContent = moneyUGX(portfolio);
+  $("earnTotal").textContent = moneyUGX(loanComm + travel + airtime + attendance + portfolio);
+
+  $("portfolioAmount").value = portfolioAmount;
+  $("portfolioEarned").checked = (portfolioEarnedMonth === ym);
+
+  const now = today();
+  const attendedToday = attendanceDays.includes(now);
+  $("markAttendance").disabled = attendedToday;
+  $("markAttendance").textContent = attendedToday ? "Marked today" : "Mark today";
+  $("attendanceStatus").textContent = attendedToday ? "Attendance recorded for today." : "";
+}
+
 function renderReports(){
-const count=s=>leads.filter(l=>l.stage===s).length;
-$("rInterested").textContent=count("Interested");$("rDocs").textContent=count("Documents Pending");$("rApproved").textContent=count("Approved");$("rDisbursed").textContent=count("Disbursed");
-let sources=[...new Set(leads.map(l=>l.source))];$("sourceReport").innerHTML=sources.length?sources.map(s=>{let a=leads.filter(l=>l.source===s),q=a.filter(l=>["Qualified (initial)","Documents Pending","Submitted","Approved","Disbursed"].includes(l.stage)).length;return `<div style="padding:8px 0;border-bottom:1px solid #edf1f6"><strong>${esc(s)}</strong><div class="meta">${a.length} total leads · ${q} reached qualified-or-later stages</div></div>`}).join(""):'<p class="hint">Add leads and select their source to compare channels.</p>'
+  const count = s => leads.filter(l => l.stage === s).length;
+  $("rInterested").textContent = count("Interested");
+  $("rDocs").textContent = count("Documents Pending");
+  $("rApproved").textContent = count("Approved");
+  $("rDisbursed").textContent = count("Disbursed");
+
+  const sources = [...new Set(leads.map(l => l.source))];
+  $("sourceReport").innerHTML = sources.length
+    ? sources.map(s => {
+        const a = leads.filter(l => l.source === s);
+        const q = a.filter(l => ["Qualified (initial)","Documents Pending","Submitted","Approved","Disbursed"].includes(l.stage)).length;
+        return `<div style="padding:8px 0;border-bottom:1px solid #edf1f6"><strong>${esc(s)}</strong><div class="meta">${a.length} total · ${q} reached qualified-or-later</div></div>`;
+      }).join("")
+    : '<p class="hint">No data yet.</p>';
+
+  const full = activityLog.slice(0, 40);
+  $("activityFull").innerHTML = full.length
+    ? full.map(a => `<div class="activity-item"><strong>${esc(a.label)}</strong><div class="meta">${esc(a.detail)} · ${esc((a.at||"").slice(0,16).replace("T"," "))}</div></div>`).join("")
+    : '<div class="empty">No activity.</div>';
 }
-function newLead(){resetForm();showTab("add")}
-function resetForm(){ $("leadForm").reset();$("leadId").value="";$("stage").value="New";$("formTitle").textContent="Add a new lead"; }
-$("leadForm").addEventListener("submit",e=>{e.preventDefault();if(!$("consent").checked){alert("Please confirm appropriate permission or that this is fictional test data before saving.");return}let id=$("leadId").value||("lead_"+Date.now()+"_"+Math.random().toString(36).slice(2,7));let prev=leads.find(l=>l.id===id);let l={id,name:$("name").value.trim(),phone:$("phone").value.trim(),business:$("business").value.trim(),source:$("source").value,vehicle:$("vehicle").value,income:$("income").value,need:$("need").value,stage:$("stage").value,follow:$("follow").value,amount:$("amount").value,notes:$("notes").value.trim(),updatedAt:new Date().toISOString(),createdAt:prev?.createdAt||new Date().toISOString(),disbursedAt:$("stage").value==="Disbursed"?(prev?.stage==="Disbursed"?(prev.disbursedAt||new Date().toISOString()):new Date().toISOString()):""};if(!l.name){alert("Enter a prospect name.");return}let i=leads.findIndex(x=>x.id===id);if(i>=0)leads[i]=l;else leads.unshift(l);if(persist()){resetForm();renderAll();showTab("leads");alert("Lead saved on this device.");}});
-function editLead(id){let l=leads.find(x=>x.id===id);if(!l)return;showTab("add");$("leadId").value=l.id;for(let f of ["name","phone","business","source","vehicle","income","need","stage","follow","amount","notes"])$(f).value=l[f]??"";$("consent").checked=true;$("formTitle").textContent="Edit lead"}
-function advanceLead(id){let l=leads.find(x=>x.id===id);if(!l)return;let i=stages.indexOf(l.stage);const previous=l.stage;l.stage=stages[Math.min(i+1,stages.length-1)];l.updatedAt=new Date().toISOString();if(l.stage==="Disbursed"&&previous!=="Disbursed")l.disbursedAt=new Date().toISOString();persist();renderAll()}
-function deleteLead(id){let l=leads.find(x=>x.id===id);if(l&&confirm("Delete lead '"+l.name+"' from this device?")){leads=leads.filter(x=>x.id!==id);persist();renderAll()}}
-function csvCell(v){return '"'+String(v??"").replace(/"/g,'""')+'"'}
-function exportCSV(){if(!leads.length){alert("There are no leads to export.");return}let cols=["name","phone","business","source","vehicle","income","need","stage","follow","amount","notes","createdAt","updatedAt"];let csv=[cols.join(","),...leads.map(l=>cols.map(k=>csvCell(l[k])).join(","))].join("\r\n");downloadBlob(new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8;"}),"psis-leads.csv")}
-function downloadBackup(){downloadBlob(new Blob([JSON.stringify({version:1,exportedAt:new Date().toISOString(),leads},null,2)],{type:"application/json"}),"psis-backup.json")}
-function downloadBlob(blob,name){let u=URL.createObjectURL(blob),a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000)}
-function restoreBackup(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let obj=JSON.parse(r.result),items=Array.isArray(obj)?obj:obj.leads;if(!Array.isArray(items)||items.some(x=>!x.id||!x.name))throw Error("Invalid backup");if(!confirm("Replace current records with "+items.length+" records from this backup? Export a backup first if needed."))return;leads=items;persist();renderAll();alert("Backup restored on this device.")}catch(err){alert("Could not restore: file is not a valid PSIS backup.")}e.target.value=""};r.readAsText(f)}
-function clearAll(){if(!leads.length){alert("No records to delete.");return}if(confirm("Delete ALL "+leads.length+" local leads? Export a backup first if needed.")&&confirm("Final confirmation: this cannot be undone.")){leads=[];persist();renderAll()}}
-fillStageOptions();renderAll();
+
+function renderAll(){
+  renderDashboard();
+  renderLeads();
+  renderTasks();
+  renderEarnings();
+  renderReports();
+}
+
+/* ========== LEAD CRUD ========== */
+function newLead(){
+  resetForm();
+  showTab("add");
+}
+function resetForm(){
+  $("leadForm").reset();
+  $("leadId").value = "";
+  $("stage").value = "New";
+  $("formTitle").textContent = "Add a new lead";
+  $("airtimeDateWrap").style.display = "none";
+  $("airtimeQualifiedAt").value = "";
+}
+
+$("airtimeQualified").addEventListener("change", () => {
+  $("airtimeDateWrap").style.display = $("airtimeQualified").checked ? "block" : "none";
+  if ($("airtimeQualified").checked && !$("airtimeQualifiedAt").value) {
+    $("airtimeQualifiedAt").value = today();
+  }
+});
+
+$("leadForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const name = $("name").value.trim();
+  if (!name) { alert("Enter a prospect name."); return; }
+
+  const id = $("leadId").value || ("lead_" + Date.now() + "_" + Math.random().toString(36).slice(2,7));
+  const prev = leads.find(l => l.id === id);
+  const stage = $("stage").value;
+  const airtimeQualified = $("airtimeQualified").checked;
+  let airtimeQualifiedAt = $("airtimeQualifiedAt").value || "";
+  if (airtimeQualified && !airtimeQualifiedAt) airtimeQualifiedAt = today();
+  if (!airtimeQualified) airtimeQualifiedAt = "";
+
+  let disbursedAt = $("disbursedAt").value || "";
+  let disbursedAmount = $("disbursedAmount").value;
+
+  // If user sets stage to Disbursed and left date empty, default to today
+  if (stage === "Disbursed" && !disbursedAt) {
+    disbursedAt = prev?.disbursedAt || today();
+  }
+  // If leaving Disbursed stage, clear disbursement fields only if user cleared them
+  if (stage !== "Disbursed") {
+    // keep historical values unless user explicitly cleared
+  }
+
+  const l = {
+    id,
+    name,
+    phone: $("phone").value.trim(),
+    business: $("business").value.trim(),
+    source: $("source").value,
+    vehicle: $("vehicle").value,
+    income: $("income").value,
+    need: $("need").value,
+    stage,
+    follow: $("follow").value,
+    amount: $("amount").value,
+    disbursedAmount: disbursedAmount,
+    disbursedAt: disbursedAt,
+    notes: $("notes").value.trim(),
+    airtimeQualified,
+    airtimeQualifiedAt,
+    updatedAt: new Date().toISOString(),
+    createdAt: prev?.createdAt || new Date().toISOString()
+  };
+
+  const i = leads.findIndex(x => x.id === id);
+  const isNew = i < 0;
+  if (isNew) leads.unshift(l);
+  else leads[i] = l;
+
+  if (persistLeads()) {
+    if (isNew) logActivity("Lead created", name);
+    else logActivity("Lead updated", name + " → " + stage);
+    if (stage === "Disbursed" && (isNew || prev?.stage !== "Disbursed")) {
+      logActivity("Loan marked disbursed", name + (actualDisbursedAmount(l) ? " · " + moneyUGX(actualDisbursedAmount(l)) : ""));
+    }
+    if (airtimeQualified && (isNew || !prev?.airtimeQualified)) {
+      logActivity("Airtime fund qualified", name);
+    }
+    resetForm();
+    renderAll();
+    showTab("leads");
+    alert("Lead saved on this device.");
+  }
+});
+
+function editLead(id){
+  const l = leads.find(x => x.id === id);
+  if (!l) return;
+  showTab("add");
+  $("leadId").value = l.id;
+  $("name").value = l.name || "";
+  $("phone").value = l.phone || "";
+  $("business").value = l.business || "";
+  $("source").value = l.source || "Referral";
+  $("vehicle").value = l.vehicle || "Unknown";
+  $("income").value = l.income || "Unknown";
+  $("need").value = l.need || "";
+  $("stage").value = l.stage || "New";
+  $("follow").value = l.follow || "";
+  $("amount").value = l.amount ?? "";
+  $("disbursedAmount").value = l.disbursedAmount ?? "";
+  $("disbursedAt").value = (l.disbursedAt || "").slice(0,10);
+  $("notes").value = l.notes || "";
+  $("airtimeQualified").checked = !!l.airtimeQualified;
+  $("airtimeQualifiedAt").value = (l.airtimeQualifiedAt || "").slice(0,10);
+  $("airtimeDateWrap").style.display = l.airtimeQualified ? "block" : "none";
+  $("formTitle").textContent = "Edit lead";
+}
+
+function advanceLead(id){
+  const l = leads.find(x => x.id === id);
+  if (!l) return;
+  const i = FLOW.indexOf(l.stage);
+  if (i < 0 || i >= FLOW.length - 1) return;
+  const previous = l.stage;
+  l.stage = FLOW[i + 1];
+  l.updatedAt = new Date().toISOString();
+  if (l.stage === "Disbursed" && previous !== "Disbursed") {
+    if (!l.disbursedAt) l.disbursedAt = today();
+    logActivity("Loan marked disbursed", l.name);
+  }
+  persistLeads();
+  renderAll();
+}
+
+function deleteLead(id){
+  const l = leads.find(x => x.id === id);
+  if (l && confirm("Delete lead '" + l.name + "' from this device?")) {
+    leads = leads.filter(x => x.id !== id);
+    persistLeads();
+    logActivity("Lead deleted", l.name);
+    renderAll();
+  }
+}
+
+/* ========== ATTENDANCE & PORTFOLIO ========== */
+function markAttendanceToday(){
+  const d = today();
+  if (attendanceDays.includes(d)) return;
+  attendanceDays.push(d);
+  persistAttendance();
+  logActivity("Attendance marked", d);
+  renderAll();
+}
+$("markAttendance").addEventListener("click", markAttendanceToday);
+$("markAttendanceQuick").addEventListener("click", markAttendanceToday);
+
+$("portfolioAmount").addEventListener("change", () => {
+  portfolioAmount = Math.max(0, Number($("portfolioAmount").value) || 0);
+  persistPortfolio();
+  renderEarnings();
+});
+$("portfolioEarned").addEventListener("change", () => {
+  if ($("portfolioEarned").checked) {
+    portfolioEarnedMonth = selectedEarnMonth || monthOf(today());
+    logActivity("Portfolio commission confirmed", moneyUGX(portfolioAmount) + " for " + portfolioEarnedMonth);
+  } else {
+    portfolioEarnedMonth = "";
+    logActivity("Portfolio commission un-confirmed", "");
+  }
+  persistPortfolio();
+  renderEarnings();
+});
+
+$("earnMonth").addEventListener("change", () => {
+  selectedEarnMonth = $("earnMonth").value;
+  // keep portfolio checkbox in sync with selected month
+  renderEarnings();
+});
+
+$("monthlyTarget").addEventListener("change", () => {
+  const value = parseInt($("monthlyTarget").value, 10);
+  if (!Number.isFinite(value) || value < 1 || value > 10000) {
+    alert("Set a monthly target between 1 and 10,000.");
+    $("monthlyTarget").value = monthlyTarget;
+    return;
+  }
+  monthlyTarget = value;
+  persistTarget();
+  renderDashboard();
+});
+
+/* ========== BACKUP / EXPORT ========== */
+function csvCell(v){
+  let s = String(v ?? "");
+  if (/^[=+\-@\t\r]/.test(s)) s = "'" + s;   // stop spreadsheets running cells as formulas
+  return '"' + s.replace(/"/g, '""') + '"';
+}
+
+function exportCSV(){
+  if (!leads.length) { alert("There are no leads to export."); return; }
+  const cols = ["name","phone","business","source","vehicle","income","need","stage","follow","amount","disbursedAmount","disbursedAt","airtimeQualified","airtimeQualifiedAt","notes","createdAt","updatedAt"];
+  const csv = [cols.join(","), ...leads.map(l => cols.map(k => csvCell(l[k])).join(","))].join("\r\n");
+  downloadBlob(new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8;" }), "psis-leads.csv");
+  logActivity("CSV exported", leads.length + " leads");
+}
+
+function downloadBackup(){
+  const payload = {
+    schemaVersion: SCHEMA_VERSION,
+    exportedAt: new Date().toISOString(),
+    leads,
+    attendanceDays,
+    portfolioAmount,
+    portfolioEarnedMonth,
+    monthlyTarget,
+    activityLog: activityLog.slice(0, 100)
+  };
+  downloadBlob(new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" }), "psis-backup-v5.json");
+  logActivity("Backup exported", "JSON");
+}
+
+function downloadBlob(blob, name){
+  const u = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = u; a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(u), 1000);
+}
+
+function restoreBackup(e){
+  const f = e.target.files[0];
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    try {
+      const obj = JSON.parse(r.result);
+      let items = Array.isArray(obj) ? obj : obj.leads;
+      if (!Array.isArray(items) || items.some(x => !x || typeof x !== "object" || !safeId(x.id) || !x.name)) throw new Error("Invalid backup");
+      if (!confirm("Replace current records with " + items.length + " leads from this backup?\n\nAlso restore attendance and portfolio settings if present in the file.\n\nExport a backup first if you need to keep the current data.")) return;
+
+      leads = items;
+      if (Array.isArray(obj.attendanceDays)) attendanceDays = obj.attendanceDays;
+      if (obj.portfolioAmount != null) portfolioAmount = Math.max(0, Number(obj.portfolioAmount) || 0);
+      if (obj.portfolioEarnedMonth != null) portfolioEarnedMonth = String(obj.portfolioEarnedMonth || "");
+      if (obj.monthlyTarget != null) monthlyTarget = Math.max(1, Math.min(10000, Number(obj.monthlyTarget) || 10));
+      if (Array.isArray(obj.activityLog)) activityLog = obj.activityLog;
+
+      persistLeads();
+      persistAttendance();
+      persistPortfolio();
+      persistTarget();
+      persistActivity();
+      logActivity("Backup restored", items.length + " leads");
+      renderAll();
+      alert("Backup restored on this device.");
+    } catch(err) {
+      alert("Could not restore: file is not a valid PSIS backup.");
+    } finally {
+      e.target.value = "";
+    }
+  };
+  r.readAsText(f);
+}
+
+function clearAll(){
+  if (!leads.length && !attendanceDays.length) {
+    alert("No records to delete.");
+    return;
+  }
+  if (confirm("Delete ALL local leads, attendance days and activity on this device?\n\nExport a backup first if needed.") &&
+      confirm("Final confirmation: this cannot be undone.")) {
+    leads = [];
+    attendanceDays = [];
+    activityLog = [];
+    portfolioEarnedMonth = "";
+    persistLeads();
+    persistAttendance();
+    persistActivity();
+    persistPortfolio();
+    logActivity("All local data cleared", "");
+    renderAll();
+  }
+}
+
+/* ========== INIT ========== */
+loadAll();
+fillStageOptions();
+renderAll();
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => { navigator.serviceWorker.register("./sw.js").catch(() => {}); });
+}
 </script>
 </body>
 </html>
