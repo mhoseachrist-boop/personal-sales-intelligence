@@ -1,6 +1,6 @@
 {
-  "name": "PSI Sales",
-  "short_name": "PSI Sales",
+  "name": "Sales Intelligence",
+"short_name": "Sales Intelligence",
   "description": "Personal offline sales lead tracker, follow-ups and earnings",
   "start_url": "./index.html",
   "scope": "./",
